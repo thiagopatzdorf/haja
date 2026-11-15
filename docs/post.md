@@ -15,8 +15,8 @@ So I built my own messenger. It's called Haja.
 - the server deletes everything after 7 days, and that limit is hard-coded
 - your own AI agent (Claude, ChatGPT, whatever) can message on your behalf through MCP, only to the people you allow, and the other side sees it was the agent
 
-Open source, MIT. Built on Nostr.
-github.com/thiagopatzdorf/haja
+Try it: haja.chat
+Open source, MIT. Built on Nostr: github.com/thiagopatzdorf/haja
 
 ## LinkedIn (EN, versão longa)
 
@@ -35,7 +35,8 @@ What it doesn't do yet: voice notes, groups, push notifications, a mobile app. T
 
 Open source (MIT), built on Nostr, so your key works in other apps too. Nobody gets locked in, including by us.
 
-github.com/thiagopatzdorf/haja
+Try it: https://haja.chat
+Code: github.com/thiagopatzdorf/haja
 
 ## X / Threads (PT-BR)
 
@@ -49,5 +50,5 @@ Então fiz o meu próprio mensageiro. Haja.
 - o servidor apaga tudo em 7 dias, e o limite está no código
 - teu agente de IA (Claude, ChatGPT, o que for) manda mensagem por ti via MCP, só pra quem tu deixar, e quem recebe vê que foi o agente
 
-Código aberto, MIT. Em cima do Nostr.
-github.com/thiagopatzdorf/haja
+Experimenta: haja.chat
+Código aberto, MIT. Em cima do Nostr: github.com/thiagopatzdorf/haja

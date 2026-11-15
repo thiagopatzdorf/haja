@@ -7,6 +7,8 @@
 I was sick of Meta's business model for WhatsApp, and sick of handing my phone number to everyone I want to talk to.
 So Haja: your identity is a key made on your device. You share a link, not a number.
 
+**Try it: https://haja.chat** (hosted by us; the code below is the same, MIT, run your own if you prefer).
+
 ```
 you (browser, key never leaves it) ──► Haja relay ◄── your friend
                                         ▲
@@ -73,7 +75,6 @@ Tools: `haja_whoami`, `haja_read` (up to 168 hours), `haja_send` (with `dry_run`
 
 Said plainly, so nobody finds out the hard way:
 
-- **No hosted service yet.** You run your own relay for now.
 - **Your key sits in the browser's localStorage**, not behind a passkey. Clear the site data without a backup and the account is gone. Passkey protection is next.
 - **The MCP server holds your key** on your machine. The plan is NIP-46 remote signing, so the agent asks to sign and never sees the key.
 - **No voice notes, photos, groups or calls.** Voice and photos are next (encrypted files that also expire in 7 days); groups after.
