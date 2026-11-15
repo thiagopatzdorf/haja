@@ -39,6 +39,14 @@ Settings (environment): `PORT` (7777), `HAJA_DB` (`haja.db`), `HAJA_EVENTS_PER_M
 
 Put it behind TLS (Caddy, a Cloudflare tunnel, anything) so the browser uses `wss://`.
 
+With Docker (the image the hosted Haja runs: read-only root, non-root user, the database on a volume):
+
+```bash
+docker build -t haja .
+docker run -p 8080:8080 -v haja:/data haja
+HAJA_URL=http://localhost:8080 node tests/web.e2e.mjs   # the browser proof, against a running Haja
+```
+
 ## Give your agent a Haja
 
 ```json

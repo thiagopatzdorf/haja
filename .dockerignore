@@ -1,0 +1,7 @@
+node_modules
+web/vendor
+*.db
+*.db-shm
+*.db-wal
+tests
+docs

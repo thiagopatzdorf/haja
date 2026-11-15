@@ -200,3 +200,20 @@ test('static server does not leak files outside web/', async () => {
   }
   await relay.close()
 })
+
+test('health check answers with a cache-busting query string too', async () => {
+  const { relay, url } = await startRelay()
+  const base = url.replace('ws', 'http')
+  assert.equal((await fetch(base + '/health')).status, 200)
+  assert.equal((await fetch(base + '/health?v=123')).status, 200)
+  await relay.close()
+})
+
+test('web client files are not cached by the CDN, so a fix reaches people right away', async () => {
+  const { relay, url } = await startRelay()
+  const base = url.replace('ws', 'http')
+  for (const p of ['/', '/app.js', '/style.css']) {
+    assert.equal((await fetch(base + p)).headers.get('cache-control'), 'no-cache', p)
+  }
+  await relay.close()
+})

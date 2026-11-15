@@ -59,7 +59,7 @@ async function start(key, name) {
   addFromHash()
   window.addEventListener('hashchange', addFromHash)
   renderContacts()
-  fetchNames()
+  watchNames()
 }
 
 function peerOf(m) { return m.from === me ? m.to : m.from }
@@ -67,7 +67,7 @@ function peerOf(m) { return m.from === me ? m.to : m.from }
 function keep(m) {
   const peer = peerOf(m)
   if (!peer) return
-  if (!contacts[peer]) { contacts[peer] = { name: null }; store.set('contacts', contacts); fetchNames() }
+  if (!contacts[peer]) { contacts[peer] = { name: null }; store.set('contacts', contacts); watchNames() }
   const list = chats[peer] || (chats[peer] = [])
   if (list.some((x) => x.id === m.id)) return
   list.push({ id: m.id, from: m.from, text: m.text, at: m.at, agent: m.agent })
@@ -77,14 +77,24 @@ function keep(m) {
   if (current === peer) renderMessages()
 }
 
-async function fetchNames() {
+// Names come from a LIVE subscription to the contacts' profiles (kind 0), not a one-off query:
+// a friend who signs up a second after we added them (slow network) still shows up by name.
+let namesSub = null
+function watchNames() {
   const pks = Object.keys(contacts)
   if (!pks.length || !client) return
-  for (const ev of await client.query([{ kinds: [0], authors: pks }])) {
-    try { contacts[ev.pubkey].name = JSON.parse(ev.content).name || null } catch {}
-  }
-  store.set('contacts', contacts)
-  renderContacts()
+  namesSub?.close()
+  namesSub = client.subscribe([{ kinds: [0], authors: pks }], {
+    onEvent: (ev) => {
+      try {
+        const name = JSON.parse(ev.content).name
+        if (!name || !contacts[ev.pubkey]) return
+        contacts[ev.pubkey].name = String(name).slice(0, 40)
+        store.set('contacts', contacts)
+        renderContacts()
+      } catch {}
+    },
+  })
 }
 
 const label = (pk) => contacts[pk]?.name || npubEncode(pk).slice(0, 14) + '…'
@@ -143,7 +153,7 @@ function addContact(input) {
     const pk = parsePubkey(raw)
     if (pk === me) return status('That is you.')
     if (!contacts[pk]) { contacts[pk] = { name: null }; store.set('contacts', contacts) }
-    fetchNames()
+    watchNames()
     open(pk)
     status('')
   } catch { status('That is not a Haja ID.') }

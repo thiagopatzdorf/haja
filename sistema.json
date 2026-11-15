@@ -1,0 +1,18 @@
+{
+  "nome": "haja",
+  "tipo": "web",
+  "molde": "sistema-web",
+  "descricao": "Haja: mensageiro sem telefone e sem e-mail sobre Nostr; relay com AUTH, nada guardado mais de 7 dias, cliente web e MCP para o agente da própria pessoa.",
+  "titular": "genesis",
+  "conectores": [],
+  "host": "haja.chat",
+  "escala_zero": false,
+  "volume_gi": 1,
+  "criado_em": "2026-11-15",
+  "porta": 8080,
+  "memoria_limite_mi": 256,
+  "env": {
+    "HAJA_DB": "/data/haja.db",
+    "HOST": "0.0.0.0"
+  }
+}

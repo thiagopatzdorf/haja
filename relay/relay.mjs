@@ -61,7 +61,9 @@ export function createRelay({
       res.writeHead(200, { 'content-type': 'application/nostr+json', 'access-control-allow-origin': '*' })
       return res.end(JSON.stringify(info))
     }
-    if (req.url === '/healthz') {
+    // /health is what the cluster probes call; /healthz stays for anyone already using it.
+    const pathname = new URL(req.url, 'http://x').pathname
+    if (pathname === '/health' || pathname === '/healthz') {
       res.writeHead(200, { 'content-type': 'text/plain' })
       return res.end('ok')
     }
@@ -73,7 +75,9 @@ export function createRelay({
       res.writeHead(404, { 'content-type': 'text/plain', ...security })
       return res.end('not found')
     }
-    res.writeHead(200, { 'content-type': MIME[path.extname(file)] || 'application/octet-stream', ...security })
+    // no-cache: without it the CDN keeps app.js for hours and a fix reaches people only after that.
+    // Browsers still reuse the file, they just check with the server first (cheap 304s are fine).
+    res.writeHead(200, { 'content-type': MIME[path.extname(file)] || 'application/octet-stream', 'cache-control': 'no-cache', ...security })
     fs.createReadStream(file).pipe(res)
   })
 
