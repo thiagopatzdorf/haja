@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Haja</title>
+  <meta name="description" content="Haja: a messenger with no phone number and no email. End-to-end encrypted, gone from the server in 7 days, open to your own AI agents.">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main id="welcome" hidden>
+    <h1>Haja</h1>
+    <p class="lead">Talk to people without giving anyone your phone number. Or your email.</p>
+    <label>Your name <input id="name" maxlength="40" autocomplete="nickname" placeholder="How friends see you"></label>
+    <button id="create">Create my Haja</button>
+    <details>
+      <summary>I already have a key</summary>
+      <label>Secret key (nsec) <input id="import" type="password" autocomplete="off"></label>
+      <button id="doImport" class="ghost">Use this key</button>
+    </details>
+    <p class="fine">Your key is created on this device and never leaves it. Messages are end-to-end encrypted and deleted from the server after 7 days at most.</p>
+  </main>
+
+  <div id="app" hidden>
+    <aside>
+      <header>
+        <strong>Haja</strong>
+        <button id="me" class="ghost small" title="My ID">My ID</button>
+      </header>
+      <form id="addForm">
+        <input id="add" placeholder="Paste an npub or a Haja link" autocomplete="off">
+        <button class="small">Add</button>
+      </form>
+      <ul id="contacts"></ul>
+    </aside>
+    <section id="chat">
+      <div id="empty">Pick a contact, or share your link so people can reach you.</div>
+      <header id="chatHead" hidden><button id="back" class="ghost small">←</button><span id="peer"></span></header>
+      <ol id="messages"></ol>
+      <form id="sendForm" hidden>
+        <input id="text" placeholder="Message" autocomplete="off" maxlength="8000">
+        <button>Send</button>
+      </form>
+    </section>
+  </div>
+
+  <dialog id="meDialog">
+    <h2>Your Haja ID</h2>
+    <p>Anyone with this link can message you. No phone number involved.</p>
+    <input id="myLink" readonly>
+    <div class="row">
+      <button id="copy">Copy link</button>
+      <a id="wa" class="button ghost" target="_blank" rel="noopener">Send invite via WhatsApp</a>
+    </div>
+    <details>
+      <summary>Back up my key</summary>
+      <p class="fine">Whoever has this key <em>is</em> you. Keep it somewhere safe; we cannot recover it.</p>
+      <button id="reveal" class="ghost">Show secret key</button>
+      <input id="nsec" readonly hidden>
+    </details>
+    <form method="dialog"><button class="ghost">Close</button></form>
+  </dialog>
+  <p id="status" role="status"></p>
+</body>
+</html>

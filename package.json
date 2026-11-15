@@ -1,0 +1,24 @@
+{
+  "name": "haja",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Haja: a messenger with no phone number, no email, and room for your own AI agents. Nostr underneath.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "build": "esbuild web/src/nostr.js --bundle --format=esm --minify --outfile=web/vendor/nostr.js",
+    "start": "npm run build && node relay/relay.mjs",
+    "mcp": "node mcp/server.mjs",
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "nostr-tools": "2.26.0",
+    "ws": "8.18.3",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12"
+  }
+}
